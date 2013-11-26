@@ -6,7 +6,8 @@ JC = javac
 CLASSES = \
 		UserUnit.java \
 		UserManager.java \
-		LoginSystem.java
+		LoginSystem.java \
+		GetCommand.java
 
 default: classes
 

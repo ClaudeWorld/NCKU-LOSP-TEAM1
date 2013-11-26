@@ -21,6 +21,7 @@ public class UserManager implements UserManagerInterface
 		if ( passwd.length() > 8 )
 			return -2;
 
+		// store the user data to the UserUnit
 		node.setUUID( userName.hashCode() );
 		node.setUsername( userName );
 		node.setPasswd( passwd );
