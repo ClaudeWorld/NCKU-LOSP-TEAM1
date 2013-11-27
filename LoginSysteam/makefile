@@ -7,7 +7,8 @@ CLASSES = \
 		UserUnit.java \
 		UserManager.java \
 		LoginSystem.java \
-		GetCommand.java
+		GetCommand.java \
+		ListManager.java
 
 default: classes
 
