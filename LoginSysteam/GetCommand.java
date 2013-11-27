@@ -14,6 +14,8 @@ public class GetCommand
 	 *		>  1	: Registerd successfully
 	 *		> -2	: Too few arguments for register command
 	 *		> -3	: Too many characters for username or password
+	 * - /list		: List all registerd accounts
+	 *		>  2	: N/A
 	 * - /exit		: Exit the login system
 	 *		>  0	: Issued /exit command
 	 *
@@ -50,6 +52,13 @@ public class GetCommand
 			System.out.println( "Register successfully!" );
 			return 1;
 		}	// end if ( /register )
+
+		// issued /list
+		if ( arguments[0].compareTo( "/list" ) == 0 )
+		{
+			uManager.listAllUser();
+			return 2;
+		}	// end if ( /list )
 
 		// command not found
 		return -1;

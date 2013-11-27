@@ -2,6 +2,8 @@ public class UserManager implements UserManagerInterface
 {
 	// A array list to store the user data.
 	private ListManager list = new ListManager();
+	// the number of the users registered
+	private int numOfUsers = 0;
 
 	/**
 	 * Handle the data from the user's request.
@@ -31,10 +33,23 @@ public class UserManager implements UserManagerInterface
 		node.setPasswd( passwd );
 
 		// Add the element to array list.
-		list.addAnElement( node );
+		numOfUsers = list.addAnElement( node );
 
 		return 0;
 	}	// end setUserUnit()
+
+	/**
+	 *	List all users' name in the array list.
+	 */
+	public void listAllUser()
+	{
+		System.out.println( "There are " + numOfUsers + " users registered." );
+
+		for ( int i = 0; i < numOfUsers; ++i )
+		{
+			System.out.println( list.getAnElement(i).getUsername() );
+		}
+	}	// end listAlluser() func
 
 	public String getUserUnit()
 	{
