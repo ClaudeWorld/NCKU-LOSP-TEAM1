@@ -21,7 +21,7 @@ public class LoginSystem
 		boolean go_on = true;
 
 		// Print the welcome message
-		System.out.println( "Login system Version 1.3" );
+		System.out.println( "Login system Version 1.5" );
 
 		// The loop will go on until user enter "/exit".
 		while ( go_on )

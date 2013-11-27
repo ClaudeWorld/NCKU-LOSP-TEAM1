@@ -23,6 +23,8 @@ public class GetCommand
 	 * - /login		: Login to the LoginSystem
 	 *		>  3	: Login success
 	 *		> -4	: Login failed
+	 * - /logout	: Logout from the LoginSystem
+	 *		>  4	: Logout success
 	 * - /exit		: Exit the login system
 	 *		>  0	: Issued /exit command
 	 * - CMD_NOT_FOUND:
@@ -78,6 +80,13 @@ public class GetCommand
 
 			return -4;
 		}	// end if ( /login )
+
+		// issued /logout
+		if ( arguments[0].compareTo( "/logout" ) == 0 )
+		{
+			logout( currentUser );
+			return 4;
+		}
 
 		// command not found
 		return -1;
@@ -150,5 +159,16 @@ public class GetCommand
 		return -2;
 
 	}	// end login() func
+
+	/**
+	 * Logout from the LoginSystem.
+	 * It will change the currentUser state.
+	 */
+	public void logout( String[] currentUser )
+	{
+		currentUser[0] = "NotLogin";
+
+		System.out.println( "Logout success" );
+	}	// end logout() func
 
 }	// end class GetCommand
