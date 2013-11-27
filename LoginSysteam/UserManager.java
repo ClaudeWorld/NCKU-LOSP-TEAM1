@@ -1,6 +1,7 @@
 public class UserManager implements UserManagerInterface
 {
-	UserUnit node = new UserUnit();
+	// A array list to store the user data.
+	private ListManager list = new ListManager();
 
 	/**
 	 * Handle the data from the user's request.
@@ -14,6 +15,9 @@ public class UserManager implements UserManagerInterface
 	 */
 	public int setUserUnit( String userName, String passwd )
 	{
+		// Create a temp UserUnit to add to the array list
+		UserUnit node = new UserUnit();
+
 		// the length of the username is over 8.
 		if ( userName.length() > 8 )
 			return -1;
@@ -21,17 +25,20 @@ public class UserManager implements UserManagerInterface
 		if ( passwd.length() > 8 )
 			return -2;
 
-
 		// store the user data to the UserUnit
 		node.setUUID( userName.hashCode() );
 		node.setUsername( userName );
 		node.setPasswd( passwd );
+
+		// Add the element to array list.
+		list.addAnElement( node );
 
 		return 0;
 	}	// end setUserUnit()
 
 	public String getUserUnit()
 	{
-		return node.getUsername() + " " + node.getPasswd();
+		return "Yes";
+		//return node.getUsername() + " " + node.getPasswd();
 	}	// end getUserUnit()
 }
