@@ -51,9 +51,21 @@ public class UserManager implements UserManagerInterface
 		}
 	}	// end listAlluser() func
 
-	public String getUserUnit()
+	/**
+	 * Find the specified user data, and return it to the caller.
+	 * If the user is not exists, throw the exception.
+	 */
+	public UserUnit getUserUnit( String username ) throws Exception
 	{
-		return "Yes";
-		//return node.getUsername() + " " + node.getPasswd();
+
+		for ( int i = 0; i < numOfUsers; ++i )
+		{
+			if ( username.compareTo( list.getAnElement(i).getUsername() ) == 0 )
+				return list.getAnElement(i);
+		}
+
+		// If the user dosen't exists.
+		throw new Exception( "User not found." );
+
 	}	// end getUserUnit()
 }

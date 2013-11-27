@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * Handle the command issued from the user.
  * And call UserManager for proper operation.
@@ -11,15 +13,18 @@ public class GetCommand
 	 * Case sensitive
 	 * Avaliable command and its return value:
 	 * - /register	: Create a new user data
-	 *		>  1	: Registerd successfully
+	 *		>  1	: Registerd success
 	 *		> -2	: Too few arguments for register command
 	 *		> -3	: Too many characters for username or password
 	 * - /list		: List all registerd accounts
 	 *		>  2	: N/A
+	 * - /login		: Login to the LoginSystem
+	 *		>  3	: Login success
+	 *		> -4	: Login failed
 	 * - /exit		: Exit the login system
 	 *		>  0	: Issued /exit command
-	 *
-	 * If the command is unavaliable, it will return -1;
+	 * - CMD_NOT_FOUND:
+	 *		> -1	: User issued the command that is not defined
 	 */
 	public int getCommand( String command )
 	{
@@ -49,7 +54,7 @@ public class GetCommand
 				return -3;
 			}
 
-			System.out.println( "Register successfully!" );
+			System.out.println( "Register success!" );
 			return 1;
 		}	// end if ( /register )
 
@@ -60,9 +65,80 @@ public class GetCommand
 			return 2;
 		}	// end if ( /list )
 
+		// issued /login
+		if ( arguments[0].compareTo( "/login" ) == 0 )
+		{
+			if ( login() == 0 )
+			{
+				System.out.println( "Login success!" );
+				return 3;
+			}
+
+			return -4;
+		}	// end if ( /login )
+
 		// command not found
 		return -1;
 
 	}	//end getCommand() func
+
+	/**
+	 * The login process.
+	 * When a user wants to login, the UserManager will check
+	 * if that username is in the list.
+	 * If the user exists,
+	 * system will give user 3 chances to try password.
+	 * If all 3 chances are faild, login() will return failed.
+	 * Here is the return value:
+	 *	> 0		: Login success
+	 *	> -1	: User not found
+	 *	> -2	: Incorrect password
+	 */
+	public int login()
+	{
+		// The initial number of the login chance is 3.
+		int chances = 3;
+		// Store the username and passed form user.
+		String buffer;
+		Scanner keyboard = new Scanner( System.in );
+		UserUnit tmp = new UserUnit();
+
+		// Remind user to enter the username
+		System.out.print( "Please enter the username: " );
+		buffer = keyboard.next();
+
+		// Find if the specified user exists or not.
+		try
+		{
+			tmp = uManager.getUserUnit( buffer );
+		}
+		catch( Exception e )
+		{
+			System.out.println( "User not found. Please check if you entered the right account" );
+			System.out.println( "Or use command \"/register <username> <passwd>\" to create new account." );
+			return -1;
+		}
+
+		// Checking password
+		while ( chances != 0 )
+		{
+			// One chance used
+			--chances;
+
+			System.out.print( "Enter Password: " );
+			buffer = keyboard.next();
+
+			// Check if the passwd is correct.
+			if ( buffer.compareTo( tmp.getPasswd() ) == 0 )
+				return 0;
+
+			// Wrong!!!
+			System.out.println( "Wrong password. " + chances + " chances remains." );
+		}	// end while()
+
+		// Password is wrong.
+		return -2;
+
+	}	// end login() func
 
 }	// end class GetCommand
