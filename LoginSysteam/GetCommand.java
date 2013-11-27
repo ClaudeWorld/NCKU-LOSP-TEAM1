@@ -38,10 +38,12 @@ public class GetCommand
 				System.out.println( "Too few arguments for command /register: /register <username> <password>" );
 				return -2;
 			}
+
 			// Too many characters for username or password
 			if ( uManager.setUserUnit( arguments[1], arguments[2] ) < 0 )
 			{
 				System.out.println( "Too many characters for username or password, max 8 characters" );
+
 				return -3;
 			}
 
