@@ -11,6 +11,12 @@ public class LoginSystem
 		GetCommand gCommand = new GetCommand();
 
 		String userCommand;
+		/**
+		 * The currentUser identifies the user's status
+		 */
+		String[] currentUser = new String[1];
+		currentUser[0] = "NotLogin";
+
 		int commandID;
 		boolean go_on = true;
 
@@ -21,11 +27,11 @@ public class LoginSystem
 		while ( go_on )
 		{
 			// Tell user that system is waiting for input.
-			System.out.print( "> " );
+			System.out.print( currentUser[0] + " > " );
 			// Get user command from stdin
 			userCommand = keyboard.nextLine();
 			// Get the CommandID
-			commandID = gCommand.getCommand( userCommand );
+			commandID = gCommand.getCommand( userCommand, currentUser );
 
 			// Operating the command
 			switch ( commandID )

@@ -10,7 +10,9 @@ public class GetCommand
 	private UserManager uManager = new UserManager();
 
 	/**
-	 * Case sensitive
+	 * Case sensitive.
+	 * currentUser will be modified by login() and logout()
+	 *
 	 * Avaliable command and its return value:
 	 * - /register	: Create a new user data
 	 *		>  1	: Registerd success
@@ -26,7 +28,7 @@ public class GetCommand
 	 * - CMD_NOT_FOUND:
 	 *		> -1	: User issued the command that is not defined
 	 */
-	public int getCommand( String command )
+	public int getCommand( String command, String[] currentUser )
 	{
 		// Split the command line into several arguments.
 		String[] arguments = command.split( "\\s" );
@@ -68,7 +70,7 @@ public class GetCommand
 		// issued /login
 		if ( arguments[0].compareTo( "/login" ) == 0 )
 		{
-			if ( login() == 0 )
+			if ( login( currentUser ) == 0 )
 			{
 				System.out.println( "Login success!" );
 				return 3;
@@ -84,17 +86,20 @@ public class GetCommand
 
 	/**
 	 * The login process.
+	 *
 	 * When a user wants to login, the UserManager will check
 	 * if that username is in the list.
 	 * If the user exists,
 	 * system will give user 3 chances to try password.
 	 * If all 3 chances are faild, login() will return failed.
+	 * If login success, the function will update the current username. 
+	 *
 	 * Here is the return value:
 	 *	> 0		: Login success
 	 *	> -1	: User not found
 	 *	> -2	: Incorrect password
 	 */
-	public int login()
+	public int login( String[] currentUser )
 	{
 		// The initial number of the login chance is 3.
 		int chances = 3;
@@ -130,7 +135,12 @@ public class GetCommand
 
 			// Check if the passwd is correct.
 			if ( buffer.compareTo( tmp.getPasswd() ) == 0 )
+			{
+				// Update the Current username
+				currentUser[0] = tmp.getUsername();
+
 				return 0;
+			}	// end if 
 
 			// Wrong!!!
 			System.out.println( "Wrong password. " + chances + " chances remains." );
