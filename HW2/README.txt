@@ -1,11 +1,12 @@
 * Team1  homework2
 
+* 自動化build: 移至build.xml該目錄下 在命令提示元打 ant main  (ant指令會需要設定系統path參數，java compiler位置也會需要)
 	
 
 * 需加入外部library檔案: "jsoup-1.7.3.jar"
 
 
-* jsoup-1.7.3.jar 
+* 
 
 Design Pattern : Simple Factory
 

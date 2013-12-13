@@ -1,7 +1,6 @@
 /* File name: HW2.java
  * Project name: NCKU-LOSP-TEAM1 project
  * Environment: Eclipse
- * Student ID: F84004022
  * Description: 
  * 		This is a project to parser web site of lecture info, 
  * 		(URL¡Btitle¡Btime¡Blocation...)
@@ -60,7 +59,7 @@ public class HW2{
 			};
 
 			
-		for(int i=1; i <= 5; ++i){
+		for(int i=3; i <= 5; ++i){
 			if(i!=2){
 				/*use "polymorphism" to get child web page*/	
 				
