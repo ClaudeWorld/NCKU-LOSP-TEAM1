@@ -9,6 +9,13 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
+              <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
+              	<property name="build.dir"   value="build"/>
+              	    <property name="classes.dir" value="${build.dir}/classes"/>
+              	    <property name="jar.dir"     value="${build.dir}/jar"/>
+              	 <property name="main-class"  value="HW2"/>
+             
+      
     <path id="JUnit 4.libraryclasspath">
         <pathelement location="../../Desktop/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
         <pathelement location="../../Desktop/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
@@ -35,7 +42,7 @@
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac  encoding="utf-8" debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" >
             <src path="src"/>
             <classpath refid="Homework2.classpath"/>
         </javac>
@@ -50,7 +57,7 @@
             <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
         </unzip>
     </target>
-    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+    <target description="compile project with Eclipse compiler" name="compile" >
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
@@ -59,7 +66,25 @@
             <classpath refid="Homework2.classpath"/>
         </java>
     </target>
-    <target name="JUnitTest (1)">
+              	
+    	   <target name="jar" depends="compile">
+    	        <mkdir dir="${jar.dir}"/>
+    	        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+    	            <manifest>
+    	                <attribute name="Main-Class" value="${main-class}"/>
+    	            </manifest>
+    	        </jar>
+    	    </target>
+
+             	<target name="run" depends="jar">
+              	        <java fork="true" classname="${main-class}">
+              	            <classpath>
+              	                <path refid="Homework2.classpath"/>
+              	                <path refid="application"/>
+              	            </classpath>
+              	        </java>
+              	   </target>
+    <target name="JUnitTest" depends = "run">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
@@ -67,7 +92,8 @@
             <classpath refid="Homework2.classpath"/>
         </junit>
     </target>
-    <target name="junitreport">
+       
+    <target name="junitreport" depends = "JUnitTest">
         <junitreport todir="${junit.output.dir}">
             <fileset dir="${junit.output.dir}">
                 <include name="TEST-*.xml"/>
@@ -75,4 +101,5 @@
             <report format="frames" todir="${junit.output.dir}"/>
         </junitreport>
     </target>
+              	<target name ="main" depends="clean,junitreport"/>
 </project>
