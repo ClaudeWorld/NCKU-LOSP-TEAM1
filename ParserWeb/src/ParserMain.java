@@ -3,8 +3,7 @@
  * Environment: Eclipse
  * Student ID: F74002206
  * Description: 
- * 		This is a project to parser web site of lecture info, 
- * 		(URL、title、time、location...)
+ * 		This is a project to parser web site of lecture info, URL, title, time, location...
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
@@ -27,6 +26,8 @@ public class ParserMain
 			webPage = new Engineer();
 		else if(i==4)
 			webPage = new PoliticalEconomy();
+		else if(i==5)
+			webPage = new NCKU_Center_for_Gereral_Education();
 		return webPage;
 	}
 
@@ -45,17 +46,19 @@ public class ParserMain
 	}
 	public static void main(String[] args) throws IOException
 	{
-		/*URL: 1.企管系    2.經濟系    3.工程管理在職專班     4.政治經濟研究所*/
+		/* Maximum number of web pages */
+		int MAX_PAGE = 5; 
 		String url[] = { 
 				"",
 				"http://www.ba.ncku.edu.tw/design/index.php",
 				"http://economics.ncku.edu.tw/seminar.asp",
 				"http://www.eng.ncku.edu.tw/files/13-1283-101409.php",
-				"http://www.gipe.ncku.edu.tw/newslists.asp?clsid=1&title=%BAt%C1%BF%B0T%AE%A7"
+				"http://www.gipe.ncku.edu.tw/newslists.asp?clsid=1&title=%BAt%C1%BF%B0T%AE%A7",
+				"http://cge.ncku.edu.tw/bin/home.php"
 		};
 
 		
-		for(int i = 1; i <= 4; i++){
+		for(int i = 1; i <= MAX_PAGE; i++){
 			if(i != 2 && i != 4){
 				/*use "polymorphism" to get child web page*/	
 			
