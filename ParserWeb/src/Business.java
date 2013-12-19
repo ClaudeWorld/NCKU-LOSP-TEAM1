@@ -30,6 +30,7 @@ public class Business extends WebPage
 		try
 		{				
 			Document doc = Jsoup.connect("http://www.ba.ncku.edu.tw/design/index.php").get();
+			
 			Elements links = doc.select("a[href]");
 			
 			for(Element link : links)
@@ -38,10 +39,10 @@ public class Business extends WebPage
 				tdListStr.add(link.text());			
 			}
 			
-			for(int i = 55; i < 60; i++)
+			for(int i = 53; i < 58; i++)
 			{
 				titleList.add(tdListStr.get(i).substring(10));
-				timeList.add(tdListStr.get(i).substring(0, 10));
+				timeList.add(tdListStr.get(i).substring(0, 10));				
 			}
 			
 			/*for(int i = 0; i < titleList.size(); i++)
@@ -73,6 +74,7 @@ public class Business extends WebPage
 				//System.out.println();
 				myList.add(tmpData);
 			}
+			
 		}
 		catch(Exception e)
 		{

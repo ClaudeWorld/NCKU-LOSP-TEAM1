@@ -14,7 +14,6 @@ public interface WebPageInterface  {
 	 */
 	public class DataUnit{
 		
-		/*the url is for one address website(if exists)*/
 		private String url;
 		private String title;
 		private Date time;
