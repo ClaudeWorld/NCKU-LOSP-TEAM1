@@ -4,7 +4,7 @@
  * Student ID: F74002206
  * Description: 
  * 		This is a project to parser web site of lecture info, 
- * 		(URL°Btitle°Btime°Blocation...)
+ * 		(URL„ÄÅtitle„ÄÅtime„ÄÅlocation...)
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
