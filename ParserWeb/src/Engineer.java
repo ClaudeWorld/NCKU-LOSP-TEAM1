@@ -34,25 +34,24 @@ public class Engineer extends WebPage
 			
 			Document doc = Jsoup.connect("http://www.eng.ncku.edu.tw/files/13-1283-101409.php").get();			
 			Elements links = doc.select("span");
-			
+						
 			for(Element link : links)
 			{
-				listStr.add(link.text());
-				
+				listStr.add(link.text());				
 			}
 			
-			titleList.add(listStr.get(56).substring(13));			
-			titleList.add(listStr.get(68).substring(14,23));
+			titleList.add(listStr.get(59).substring(13));			
+			titleList.add(listStr.get(71).substring(14,23));
 			titleList.add(listStr.get(84));
-			titleList.add(listStr.get(96));			
-			titleList.add(listStr.get(112).substring(4,13));
-			titleList.add(listStr.get(125).substring(4,12));			
-			timeList.add(yearStr.concat(listStr.get(58)));
-			timeList.add(yearStr.concat(listStr.get(70)));
-			timeList.add(yearStr.concat(listStr.get(82)));
-			timeList.add(yearStr.concat(listStr.get(95)));
-			timeList.add(yearStr.concat(listStr.get(111)));
-			timeList.add(yearStr.concat(listStr.get(124)));
+			titleList.add(listStr.get(99));			
+			titleList.add(listStr.get(115).substring(4,13));
+			titleList.add(listStr.get(128).substring(4,12));			
+			timeList.add(yearStr.concat(listStr.get(61)));
+			timeList.add(yearStr.concat(listStr.get(73)));
+			timeList.add(yearStr.concat(listStr.get(85)));
+			timeList.add(yearStr.concat(listStr.get(98)));
+			timeList.add(yearStr.concat(listStr.get(114)));
+			timeList.add(yearStr.concat(listStr.get(127)));			
 			
 			for(int i = 0; i < titleList.size(); i++)
 			{

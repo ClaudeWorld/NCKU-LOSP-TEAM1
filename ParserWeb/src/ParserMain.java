@@ -4,7 +4,7 @@
  * Student ID: F74002206
  * Description: 
  * 		This is a project to parser web site of lecture info, 
- * 		(URL°Btitle°Btime°Blocation...)
+ * 		(URL„ÄÅtitle„ÄÅtime„ÄÅlocation...)
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
@@ -45,7 +45,7 @@ public class ParserMain
 	}
 	public static void main(String[] args) throws IOException
 	{
-		/*URL: 1.•¯∫ﬁ®t    2.∏g¿Ÿ®t    3.§uµ{∫ﬁ≤z¶b¬æ±MØZ     4.¨F™v∏g¿Ÿ¨„®s©“*/
+		/*URL: 1.Business 2.Economics 3.Engineer 4.Political Economics*/
 		String url[] = { 
 				"",
 				"http://www.ba.ncku.edu.tw/design/index.php",
