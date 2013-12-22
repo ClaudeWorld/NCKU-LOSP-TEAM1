@@ -1,0 +1,9 @@
+/register:
+	檢查是否有重複註冊
+/login:
+	當登入時變換">"成"username >"
+	重複登入問題
+	密碼輸入次數3次 > 強制結束?			=> /login後，密碼輸入三次失敗則離開/login process
+	已經登入後 無法登入到其他帳號中
+/logout:
+	尚未登入 卻嘗試使用/logout
