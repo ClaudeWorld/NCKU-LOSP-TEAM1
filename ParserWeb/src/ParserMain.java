@@ -39,6 +39,10 @@ public class ParserMain
 			webPage = new NCKUSpeechFive();
 		else if(i==10)
 			webPage = new NCKUSpeechSix();
+		else if(i=11)
+			webPage = new CSIE();
+		else if(i=12)
+			webPage = new NCTSSouth();
 		return webPage;
 	}
 
@@ -57,7 +61,10 @@ public class ParserMain
 	}
 	public static void main(String[] args) throws IOException, Exception
 	{
-		/*URL: 1.Business 2.Economics 3.Engineer 4.Political Economics*/
+		/* URL:
+		 * 	1.Business 2.Economics 3.Engineer 4.Political Economics
+		 * 	11.CSIE 12.NCTSSouth
+		 */
 		String url[] = { 
 				"",
 				"http://www.ba.ncku.edu.tw/design/index.php",
@@ -69,7 +76,9 @@ public class ParserMain
 				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=3",
 				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=4",
 				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=5",
-				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6"
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6",
+				"http://www.csie.ncku.edu.tw/new/nckucsie/index.php?content=speechntalk&year=102_1",
+				"http://www.ncts.ncku.edu.tw/"
 		};
 
 		
