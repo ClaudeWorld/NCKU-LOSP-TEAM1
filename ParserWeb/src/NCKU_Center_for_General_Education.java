@@ -15,8 +15,7 @@ import org.jsoup.select.Elements;
 class NCKU_Center_for_General_Education extends WebPage
 {
 	public String url = "http://cge.ncku.edu.tw/bin/home.php";
-	public ArrayList<DataUnit> nckuCGE_List = new ArrayList<DataUnit>();
-
+	
 	@Override
 	public void parsingData() throws IOException{
 		Document doc = Jsoup.connect(url).get();
@@ -53,14 +52,10 @@ class NCKU_Center_for_General_Education extends WebPage
 				//System.out.println(linkText);
 				//System.out.println(linkHref);
 				//System.out.println(tmpTime);
-				nckuCGE_List.add(nckuCGEUnit[i]);
+				myList.add(nckuCGEUnit[i]);
 				i++;
 			}
 		}
-	}
-
-	public ArrayList<DataUnit> getDataUnit(){
-		return nckuCGE_List; 
 	}
 }
 
