@@ -68,7 +68,7 @@ public class NCTSSouth extends WebPage
 				newDataUnit.setTitle( msg.get(6).text() );
 				
 				/*==== Get URL	====*/
-				newDataUnit.setURL( subURL );
+				newDataUnit.setUrl( subURL );
 				
 				/*==== Add the new element to myList	====*/
 				myList.add( newDataUnit );
