@@ -26,28 +26,31 @@ public class Eagle extends WebPage{
 					
 					/*to cut string*/
 					int timeIndex = link.attr("title").indexOf("1");
-					int titleIndex = 1 + link.attr("title").indexOf("¡G");
+					int titleIndex = 2 + link.attr("title").indexOf(")");
 					/*get the time*/
 					String time = link.attr("title").substring( timeIndex, titleIndex - 1 );
 					/*get the title*/
 					String title = link.attr("title").substring(titleIndex, link.attr("title").length());
 					
-					//time = time.replace("102","2013");
-					//time = time.replace("103","2014");
+					time = time.replace("102","2013");
+					time = time.replace("103","2014");
 					if(time.length()>14){
 						String temp = time.substring(0,4);
 						time = time.substring(5, time.length());
 						time = temp + time;
 					}
 					
+					
 					/*convert string to Date format*/
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyy.MM.dd");
 					Date date = null;
+					
+					
 					try {
 						date = dateFormat.parse(time);
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						//e.printStackTrace();
 						
 					} 
 					if(date != null){

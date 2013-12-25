@@ -19,7 +19,6 @@ public interface WebPageInterface  {
 		private Date time;
 		private String location;
 		private String URL;
-		private String addrURL; 
 		
 		String getTitle(){
 			return title;

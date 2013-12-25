@@ -28,6 +28,7 @@ public abstract class WebPage implements WebPageInterface{
 	
 	public void sortByTime(){
 		
+		if(myList.get(0).getTime() != null)
 		Collections.sort(myList, new Comparator<DataUnit>(){
 			@Override
 			public int compare(DataUnit arg0, DataUnit arg1) {

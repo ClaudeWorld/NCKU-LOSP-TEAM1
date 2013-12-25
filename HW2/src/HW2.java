@@ -21,13 +21,29 @@ public class HW2{
 		if(i==1)
 			webPage = new Eagle();
 		else if(i==2)
-			webPage = new Photonics();
-		else if(i==3)
 			webPage = new Math();
-		else if(i==4)
+		else if(i==3)
 			webPage = new Aeronautics();
+		else if(i==4)
+			webPage = new Economics();
 		else if(i==5)
-			webPage = new NCKU_Center_for_Gereral_Education ();
+			webPage = new Engineer();
+		else if(i==6)
+			webPage = new PoliticalEconomy();
+		else if(i==7)
+			webPage = new NCKU_Center_for_General_Education();
+		else if(i==8)
+			webPage = new NCKUSpeech();
+		else if(i==9)
+			webPage = new NCKUSpeechTwo();
+		else if(i==10)
+			webPage = new NCKUSpeechThree();
+		else if(i==11)
+			webPage = new NCKUSpeechFour();
+		else if(i==12)
+			webPage = new NCKUSpeechFive();
+		else if(i==13)
+			webPage = new NCKUSpeechSix();
 		return webPage;
 	}
 
@@ -48,21 +64,27 @@ public class HW2{
 	
 	public static void main(String[] args) throws IOException {
 	
-		/*URL: 1.成鷹計畫    2.光電    3.數學     4.航太*/
 			String url[] = { 
 					"",
 					"http://english.ncku.edu.tw/eagle/?q=taxonomy/term/21",
-					"http://www.dps.ncku.edu.tw/main.php",
 					"http://www.math.ncku.edu.tw/research/talk.php?period=new",
 					"http://www.iaa.ncku.edu.tw/Disquisition/Disquisition.aspx",
-					"http://cge.ncku.edu.tw/bin/home.php"
+					"http://economics.ncku.edu.tw/seminar.asp",
+					"http://www.eng.ncku.edu.tw/files/13-1283-101409.php",
+					"http://www.gipe.ncku.edu.tw/newslists.asp?clsid=1&title=%BAt%C1%BF%B0T%AE%A7",
+					"http://cge.ncku.edu.tw/bin/home.php",
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=1",
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=2",
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=3",
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=4",
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=5",
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6"
 			};
 
 			
-		for(int i=3; i <= 5; ++i){
-			if(i!=2){
+		for(int i=1; i <= 13; ++i){
 				/*use "polymorphism" to get child web page*/	
-				
+			if(i!=3){
 				WebPage webPage = getWeb(i);
 				webPage.setURL(url[i]);
 				
