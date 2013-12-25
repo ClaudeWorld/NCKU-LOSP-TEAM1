@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -10,40 +12,50 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
-class NCKU_Center_for_Gereral_Education extends WebPage
+class NCKU_Center_for_General_Education extends WebPage
 {
-	public String url;
+	public String url = "http://cge.ncku.edu.tw/bin/home.php";
 	public ArrayList<DataUnit> nckuCGE_List = new ArrayList<DataUnit>();
-	public void sortByTime(){
-	}
-	public void setURL(String URL){
-		this.url = URL;
-	}
-	public String getURL(){
-		return url;
-	}
+
 	@Override
 	public void parsingData() throws IOException{
 		Document doc = Jsoup.connect(url).get();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
 		Elements content = doc.getElementsByClass("ptname");
 		DataUnit nckuCGEUnit[] = new DataUnit[30]; 
+		String linkHref = "";
+		String linkText = "";
+		String tmpTime = "";
+		Date linkTime = null;
+		
 		int i = 0;
 
 		for (Element contents : content) {
 			Elements links = contents.getElementsByTag("a");
-			String linkHref = links.attr("href");
-			String linkTarget = links.attr("target");
-			String linkText = links.text();
-			if(linkTarget.equals("_blank"))
-				break;
-
-			nckuCGEUnit[i] = new DataUnit();
-			nckuCGEUnit[i].setTitle(linkText);
-			nckuCGEUnit[i].setUrl(linkHref);
-			Document doc2 = Jsoup.connect(linkHref).get();
-			Elements content2 = doc2.getElementsByTag("ptname");
-			System.out.println(linkHref);
-			i++;
+			linkHref = links.attr("href");
+			linkText = links.text();
+			
+			if(!linkText.equals("通識教育生活實踐認證流程")){
+				if(linkText.equals("成大數位學習平台"))
+					return;
+				tmpTime = linkText.substring(0, 9);
+				linkText = linkText.substring(10);
+				nckuCGEUnit[i] = new DataUnit();
+				nckuCGEUnit[i].setTitle(linkText);
+				nckuCGEUnit[i].setUrl(linkHref);
+				try {
+					linkTime = sdf.parse(tmpTime);
+					nckuCGEUnit[i].setTime(linkTime);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				//System.out.println(linkText);
+				//System.out.println(linkHref);
+				//System.out.println(tmpTime);
+				nckuCGE_List.add(nckuCGEUnit[i]);
+				i++;
+			}
 		}
 	}
 
