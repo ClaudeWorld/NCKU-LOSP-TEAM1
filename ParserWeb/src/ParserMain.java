@@ -39,10 +39,12 @@ public class ParserMain
 			webPage = new NCKUSpeechFive();
 		else if(i==10)
 			webPage = new NCKUSpeechSix();
-		else if(i=11)
+		else if(i==11)
 			webPage = new CSIE();
-		else if(i=12)
+		else if(i==12)
 			webPage = new NCTSSouth();
+		else if(i==13)
+			webPage = new statistic();
 		return webPage;
 	}
 
@@ -78,11 +80,12 @@ public class ParserMain
 				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=5",
 				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6",
 				"http://www.csie.ncku.edu.tw/new/nckucsie/index.php?content=speechntalk&year=102_1",
-				"http://www.ncts.ncku.edu.tw/"
+				"http://www.ncts.ncku.edu.tw/",
+				"http://www.stat.ncku.edu.tw/news/speech.asp"
 		};
 
 		
-		for(int i = 5; i <= 10; i++){
+		for(int i = 1; i <= 13; i++){
 			if(i != 2 && i != 4){
 				/*use "polymorphism" to get child web page*/	
 			
