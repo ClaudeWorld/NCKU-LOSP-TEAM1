@@ -4,7 +4,7 @@
  * Student ID: F74002206
  * Description: 
  * 		This is a project to parser web site of lecture info, 
- * 		(URL„ÄÅtitle„ÄÅtime„ÄÅlocation...)
+ * 		(URL°Btitle°Btime°Blocation...)
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
@@ -27,6 +27,18 @@ public class ParserMain
 			webPage = new Engineer();
 		else if(i==4)
 			webPage = new PoliticalEconomy();
+		else if(i==5)
+			webPage = new NCKUSpeech();
+		else if(i==6)
+			webPage = new NCKUSpeechTwo();
+		else if(i==7)
+			webPage = new NCKUSpeechThree();
+		else if(i==8)
+			webPage = new NCKUSpeechFour();
+		else if(i==9)
+			webPage = new NCKUSpeechFive();
+		else if(i==10)
+			webPage = new NCKUSpeechSix();
 		return webPage;
 	}
 
@@ -43,7 +55,7 @@ public class ParserMain
 		}
 		
 	}
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args) throws IOException, Exception
 	{
 		/*URL: 1.Business 2.Economics 3.Engineer 4.Political Economics*/
 		String url[] = { 
@@ -51,11 +63,17 @@ public class ParserMain
 				"http://www.ba.ncku.edu.tw/design/index.php",
 				"http://economics.ncku.edu.tw/seminar.asp",
 				"http://www.eng.ncku.edu.tw/files/13-1283-101409.php",
-				"http://www.gipe.ncku.edu.tw/newslists.asp?clsid=1&title=%BAt%C1%BF%B0T%AE%A7"
+				"http://www.gipe.ncku.edu.tw/newslists.asp?clsid=1&title=%BAt%C1%BF%B0T%AE%A7",
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=1",
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=2",
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=3",
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=4",
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=5",
+				"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6"
 		};
 
 		
-		for(int i = 1; i <= 4; i++){
+		for(int i = 5; i <= 10; i++){
 			if(i != 2 && i != 4){
 				/*use "polymorphism" to get child web page*/	
 			
@@ -83,7 +101,7 @@ public class ParserMain
 				foreach(webPage.getDataUnit());
 			}
 			System.out.println();
-		}
+		}			
 	}
 
 }
