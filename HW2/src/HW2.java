@@ -44,6 +44,10 @@ public class HW2{
 			webPage = new NCKUSpeechFive();
 		else if(i==13)
 			webPage = new NCKUSpeechSix();
+		else if(i==14)
+			webPage = new CSIE();
+		else if(i==15)
+			webPage = new NCTSSouth();
 		return webPage;
 	}
 
@@ -57,6 +61,7 @@ public class HW2{
 			Data = iterator.next();
 			System.out.println(Data.getTime());
 			System.out.println(Data.getTitle());
+			System.out.println(Data.getURL());
 		}
 		
 	}
@@ -78,11 +83,13 @@ public class HW2{
 					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=3",
 					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=4",
 					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=5",
-					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6"
+					"http://apps.acad.ncku.edu.tw/lecture/main/show_list_goto.php?deptno=&page=6",
+					"http://www.csie.ncku.edu.tw/new/nckucsie/index.php?content=speechntalk&year=102_1",
+					"http://www.ncts.ncku.edu.tw/"
 			};
 
 			
-		for(int i=1; i <= 13; ++i){
+		for(int i=1; i <= 15; ++i){
 				/*use "polymorphism" to get child web page*/	
 			if(i!=3){
 				WebPage webPage = getWeb(i);
