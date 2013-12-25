@@ -1,5 +1,5 @@
 /*
- * File name : NCTSSouth
+ * File name : NCTSSouth.java
  * Project Name : NCKU-LOSP-TEAM1 project
  * Description : 
  * 		NCTS : National Center for Theoretical Sciences
