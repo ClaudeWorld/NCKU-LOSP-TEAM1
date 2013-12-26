@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="main" name="Homework2">
+    <property environment="env"/>
+    <property name="junit.output.dir" value="junit"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+              <path id="application" location="${jar.dir}/${ant.project.name}.jar"/>
+              	<property name="build.dir"   value="build"/>
+              	    <property name="classes.dir" value="${build.dir}/classes"/>
+              	    <property name="jar.dir"     value="${build.dir}/jar"/>
+              	 <property name="main-class"  value="ParserMain"/>
+             
+      
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="../../Desktop/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+        <pathelement location="../../Desktop/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
+    <path id="Homework2.classpath">
+        <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="../jsoup-1.7.3.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac  encoding="utf-8" debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}" >
+            <src path="src"/>
+            <classpath refid="Homework2.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="compile" >
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="ParserMain">
+        <java classname="ParserMain" failonerror="true" fork="yes">
+            <classpath refid="Homework2.classpath"/>
+        </java>
+    </target>
+              	
+    	   <target name="jar" depends="compile">
+    	        <mkdir dir="${jar.dir}"/>
+    	        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+    	            <manifest>
+    	                <attribute name="Main-Class" value="${main-class}"/>
+    	            </manifest>
+    	        </jar>
+    	    </target>
+
+             	<target name="run" depends="jar">
+              	        <java fork="true" classname="${main-class}">
+              	            <classpath>
+              	                <path refid="Homework2.classpath"/>
+              	                <path refid="application"/>
+              	            </classpath>
+              	        </java>
+              	   </target>
+    <target name="JUnitTest" depends = "run">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="JUnitTest" todir="${junit.output.dir}"/>
+            <classpath refid="Homework2.classpath"/>
+        </junit>
+    </target>
+       
+    <target name="junitreport" depends = "JUnitTest">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
+    </target>
+              	<target name ="main" depends="clean,junitreport"/>
+</project>
