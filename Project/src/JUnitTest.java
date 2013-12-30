@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -15,6 +16,7 @@ public class JUnitTest {
 	
 	/*Initial setting*/
 	private WebPage web;
+	private ArrayList<WebPage> pages;
 	String url[] = { 
 			"",
 			"http://english.ncku.edu.tw/eagle/?q=taxonomy/term/21",
@@ -73,15 +75,19 @@ public class JUnitTest {
 	@Before 
 	public void setUp(){
 		System.out.println("@Before setUp");
-		web = getPage(1);
-		web.setURL(url[1]);
-		try {
-			web.parsingData();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		pages = new ArrayList<WebPage>();
 		
+		for(int i=8; i<12; ++i){
+			web = getPage(i);
+			web.setURL(url[i]);
+			try {
+				web.parsingData();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			pages.add(web);
+		}
 	}
 	
 	/*Delete object*/
@@ -89,6 +95,7 @@ public class JUnitTest {
 	public void tearDown(){
 		System.out.println("@After tearDown()");
 		web = null;
+		pages = null;
 	}
 	
 	/*for assertTrue() function use*/
@@ -100,7 +107,10 @@ public class JUnitTest {
 	@Test     
 	public void getWebTest() throws IOException {
 		System.out.println("@getWebTest()...");
-		assertNotNull(web);
+		
+		for(int i=0; i < pages.size(); ++i){
+			assertNotNull(pages.get(i));
+		}
 	}
 	
 	 /*test if getUnitData and get information not null*/
@@ -108,31 +118,38 @@ public class JUnitTest {
 	public void getDataTest(){
 		System.out.println("@getDataTest()...");
 		//assertNotNull(web.getDataUnit().get(0).getTime());
-		assertNotNull(web.getDataUnit().get(0).getTitle());
-		assertNotNull(web.getDataUnit().get(0).getURL());
+		for(int i=0; i < pages.size(); ++i){
+			assertNotNull(pages.get(i).getDataUnit().get(0).getTitle());
+		}
 	}
 	
 	/*test if sort is successful*/
 	@Test   
 	public void SortByTimeTest(){
 		System.out.println("@SortByTimeTest()...");
+		
 		WebPageInterface.DataUnit later;
 		boolean expected = true;
 		Date former = null;
+
+		for(int i=0; i < pages.size(); ++i){
 		
-		web.sortByTime();	
-		Iterator<WebPageInterface.DataUnit> iterator = web.getDataUnit().iterator();
-		while(iterator.hasNext()) {
+			pages.get(i).sortByTime();	
+			Iterator<WebPageInterface.DataUnit> iterator = pages.get(i).getDataUnit().iterator();
 			
-			later = iterator.next();		
-			
-			if(former != null){
-				if(!former.equals(later.getTime()))
-					expected = IntToBoolean(former.compareTo(later.getTime()));
-				assertTrue("sortByTime() test",  expected);
+			while(iterator.hasNext()) {
+				
+				later = iterator.next();		
+				
+				if(former != null){
+					if(!former.equals(later.getTime()))
+						expected = IntToBoolean(former.compareTo(later.getTime()));
+					assertTrue("sortByTime() test",  expected);
+				}
+				
+				former = later.getTime(); 
 			}
-			
-			former = later.getTime(); 
+		
 		}
 	} 
 }

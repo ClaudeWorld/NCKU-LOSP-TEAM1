@@ -3,13 +3,17 @@
  * Environment: Eclipse
  * Description: 
  * 		This is a project to parser web site of lecture info, 
- * 		(URL°Btitle°Btime°Blocation...)
+ * 		(URL„ÄÅtitle„ÄÅtime„ÄÅlocation...)
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
  * */
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -75,25 +79,43 @@ public class ParserMain{
 		return NewPage;
 	}
 
-	/*Iterator Design pattern to print out the result*/
-	public static void foreach(Collection<WebPageInterface.DataUnit> collection) {
-
+	/*Iterator Design pattern to insert the result to database*/
+	public static void insertToDatabase(DatabaseInterface Database, String tableName, int id, Collection<WebPageInterface.DataUnit> collection) throws SQLException {
+		
 		Iterator<WebPageInterface.DataUnit> iterator = collection.iterator();
 		WebPageInterface.DataUnit Data;
 		
+		/*size = number of column data*/
+		String dataSet[] = new String[5];
+		
+		dataSet[0] = Integer.toString(id);
 		while(iterator.hasNext()) {
+			
 			Data = iterator.next();
-			System.out.println(Data.getTime());
-			System.out.println(Data.getTitle());
-			System.out.println(Data.getURL());
+			if( Data.getTime() != null){
+				dataSet[1] = Data.getTime().toString();
+			}
+			else{
+				dataSet[1] = null;
+			}
+			dataSet[2] = Data.getTitle();
+			dataSet[3] = Data.getURL();
+			dataSet[4] = Data.getLocation();
+			Database.insertData(tableName, dataSet);
 		}
 		
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
 	
-			String url[] = { 
+	public static void main(String[] args) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	
+			String DATABASE_URL = "jdbc:postgresql://210.61.10.89:9999/Team1";
+			String USER_NAME = "Team1";
+			String PASSWORD = "2013postgres";
+			String TABLE_NAME = "Lecture"
+					+ "";
+			String WebURL[] = { 
 					"",
 					"http://english.ncku.edu.tw/eagle/?q=taxonomy/term/21",
 					"http://www.math.ncku.edu.tw/research/talk.php?period=new",
@@ -111,31 +133,57 @@ public class ParserMain{
 					"http://www.csie.ncku.edu.tw/new/nckucsie/index.php?content=speechntalk&year=102_1",
 					"http://www.ncts.ncku.edu.tw/",
 					"http://www.stat.ncku.edu.tw/news/speech.asp"
-			}; /*There are 15 pages now*/
-
+			}; /*There are 16 pages now*/
 			
-		for(int i=1; i <= 16; ++i){
+					
+		ArrayList<WebPage> pageList = new ArrayList<WebPage>();	
+			
+		for(int i=1; i <= 15; ++i){
 		
-			if(i!=3 && i!=13){
+			if(i!=3 && i!=13 && i!=1){
 				
-				/*use "polymorphism" to get child web page
-				  get new Page Object */
+				/*get new Page Object */
 				WebPage webPage = getPage(i);
 				
 				/*set this page's URL*/
-				webPage.setURL(url[i]);
+				webPage.setURL(WebURL[i]);
 				
 				/*parse and store data*/
 				webPage.parsingData();		
 				
-				/*by ascending*/
+				/*by decrease*/
 				webPage.sortByTime();
 			
-				/*print out the result*/
-				foreach(webPage.getDataUnit());
+				/*add to List*/
+				pageList.add(webPage);
 				
-				System.out.printf("-------End Page %d-------\n", i);
+				System.out.printf("Page %d Parse success.\n", i);
 			}
 		}
+		
+		/*initialize database*/
+		DatabaseInterface database = new Database();
+		database.setUrl(DATABASE_URL);
+		database.connect(USER_NAME, PASSWORD);
+		
+		/*Insert the the result*/
+		for(int i=0; i < pageList.size(); ++i){
+			insertToDatabase( database, TABLE_NAME, i, pageList.get(i).getDataUnit());
+		}
+		
+		/*get data form database*/
+		ResultSet rs = database.selectData(TABLE_NAME, 20);
+		ResultSetMetaData meta = rs.getMetaData(); 
+		while( rs.next() ){
+			for(int i=1; i<=meta.getColumnCount(); ++i){
+				System.out.printf("%s ", rs.getString(i));
+			}
+			System.out.printf("\n");
+		}
+		
+		/*close database connection*/
+		database.close();
+		
+		System.out.println("End of program");
 	}
 }
