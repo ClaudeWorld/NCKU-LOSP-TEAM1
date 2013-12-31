@@ -71,6 +71,7 @@ public class ParserMain{
 				break;
 			case 16:
 				NewPage = new Statistic();
+				break;
 			default:
 				System.out.println("Error: no such page ID");
 				break;
@@ -82,8 +83,11 @@ public class ParserMain{
 	/*Iterator Design pattern to insert the result to database*/
 	public static void insertToDatabase(DatabaseInterface Database, String tableName, int id, Collection<WebPageInterface.DataUnit> collection) throws SQLException {
 		
+		int first = 1;
 		Iterator<WebPageInterface.DataUnit> iterator = collection.iterator();
 		WebPageInterface.DataUnit Data;
+		
+		String recordTable = "parserecord";
 		
 		/*size = number of column data*/
 		String dataSet[] = new String[5];
@@ -98,23 +102,53 @@ public class ParserMain{
 			else{
 				dataSet[1] = null;
 			}
-			dataSet[2] = Data.getTitle();
-			dataSet[3] = Data.getURL();
-			dataSet[4] = Data.getLocation();
-			Database.insertData(tableName, dataSet);
+			if( insertCheck(Database, recordTable,  Data.getTitle() ) ){
+				dataSet[2] = Data.getTitle();
+				dataSet[3] = Data.getURL();
+				dataSet[4] = Data.getLocation();
+				Database.insertData(tableName, dataSet);
+				
+				if(first == 1 && insertCheck(Database, recordTable, Data.getTitle() )){
+					String temp[] = new String[2];
+					temp[0] = dataSet[0];
+					temp[1] = Data.getTitle();
+					Database.insertData(recordTable, temp);
+					first = -1;
+				}
+			}else{
+				break;
+			}
 		}
 		
 	}
 	
-	
+	public static boolean insertCheck(DatabaseInterface Database, String tableName, String title) throws SQLException{
+		
+		
+		ResultSet rs = Database.selectData(tableName); 
+		
+		while ( rs.next() ){
+			
+			/*check if the insert tile is the same to data in database*/
+			if( title.equals(rs.getString(2)) ){
+			 	
+				return false;
+			}
+			else{
+				
+				return true;
+			}
+		}
+		return true;
+	}
 	
 	public static void main(String[] args) throws IOException, SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 	
 			String DATABASE_URL = "jdbc:postgresql://210.61.10.89:9999/Team1";
 			String USER_NAME = "Team1";
 			String PASSWORD = "2013postgres";
-			String TABLE_NAME = "Lecture"
-					+ "";
+			String TABLE_NAME = "Lecture";
+			
 			String WebURL[] = { 
 					"",
 					"http://english.ncku.edu.tw/eagle/?q=taxonomy/term/21",
@@ -135,12 +169,13 @@ public class ParserMain{
 					"http://www.stat.ncku.edu.tw/news/speech.asp"
 			}; /*There are 16 pages now*/
 			
-					
+		/*List to save each page object*/			
 		ArrayList<WebPage> pageList = new ArrayList<WebPage>();	
-			
-		for(int i=1; i <= 15; ++i){
 		
-			if(i!=3 && i!=13 && i!=1){
+		
+		for(int i=1; i <= 12; ++i){
+		
+			if( i!=3 && i!=13 ){
 				
 				/*get new Page Object */
 				WebPage webPage = getPage(i);
@@ -162,17 +197,17 @@ public class ParserMain{
 		}
 		
 		/*initialize database*/
-		DatabaseInterface database = new Database();
-		database.setUrl(DATABASE_URL);
-		database.connect(USER_NAME, PASSWORD);
+		DatabaseInterface Database = new Database();
+		Database.setUrl(DATABASE_URL);
+		Database.connect(USER_NAME, PASSWORD);
 		
 		/*Insert the the result*/
 		for(int i=0; i < pageList.size(); ++i){
-			insertToDatabase( database, TABLE_NAME, i, pageList.get(i).getDataUnit());
+			insertToDatabase( Database, TABLE_NAME, i, pageList.get(i).getDataUnit());
 		}
 		
 		/*get data form database*/
-		ResultSet rs = database.selectData(TABLE_NAME, 20);
+		ResultSet rs = Database.selectData(TABLE_NAME);
 		ResultSetMetaData meta = rs.getMetaData(); 
 		while( rs.next() ){
 			for(int i=1; i<=meta.getColumnCount(); ++i){
@@ -180,9 +215,12 @@ public class ParserMain{
 			}
 			System.out.printf("\n");
 		}
+	
+		//Database.deleteData(TABLE_NAME);
+		//Database.deleteData("parserecord");
 		
 		/*close database connection*/
-		database.close();
+		Database.close();
 		
 		System.out.println("End of program");
 	}

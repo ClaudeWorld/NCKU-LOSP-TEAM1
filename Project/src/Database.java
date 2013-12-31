@@ -20,6 +20,13 @@ public class Database implements DatabaseInterface{
 	public String getUrl() {
 		return url;
 	}
+	
+	@Override
+	public Statement getStatement() {
+		
+		return st;
+	}
+	
 
 	@Override
 	public boolean connect(String userName, String password) throws SQLException, InstantiationException, IllegalAccessException, ClassNotFoundException {
@@ -71,13 +78,26 @@ public class Database implements DatabaseInterface{
 			e.printStackTrace();
 		}
 	}
+	
+	@Override    
+	public void deleteData(String tableName) {
+		
+		String sql = "DELETE FROM " + tableName;
+		
+		try {
+			st.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
 
 	@Override    
 	public void deleteData(String tableName, String columnName, String key) {
 		
 		String sql = "DELETE FROM " + tableName;
 		sql += " WHERE " + columnName + "=" + "'" + key + "';";
-		System.out.printf("%s", sql);
+
 		try {
 			st.executeQuery(sql);
 		} catch (SQLException e) {
@@ -101,5 +121,23 @@ public class Database implements DatabaseInterface{
 		}
 		return rs;
 	}
+
+	@Override
+	public ResultSet selectData(String tableName) {
+	
+	String sql = "SELECT * FROM " + tableName + ";" ;
+		
+		/*get the SQL result*/
+		ResultSet rs = null;
+		try {
+			rs = st.executeQuery(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+
+	
 
 }
