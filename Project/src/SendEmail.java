@@ -26,8 +26,9 @@ public class SendEmail
 
 	void sendToClient(String mailClient, String title, ArrayList<String[]> messageList)
 	{
-		String username = map.get( "HostEmailAddress" );
-		String password = map.get( "HostEmailPassword" );
+		loadYamlData("src/EmailData.yml");
+		final String username = map.get( "HostEmailAddress" );
+		final String password = map.get( "HostEmailPassword" );
 		String content = "\n";
 		
 		Properties props = new Properties();
@@ -82,10 +83,11 @@ public class SendEmail
 		try
 		{
 			// Open the yaml source file
-			InputStream input = new FileInputStream( new File("src/EmailData.yml") );
+			InputStream input = new FileInputStream( new File(yamlSourceFile) );
 			Yaml yaml = new Yaml();
 			// Parsing the yaml data
-			map = ( Map<String, String> )yaml.load( input );
+			Map<String, String> load = ( Map<String, String> ) yaml.load( input );
+			map = load;
 			// Close the yaml source file
 			input.close();
 		}
