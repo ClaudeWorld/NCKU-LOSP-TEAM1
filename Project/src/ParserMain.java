@@ -3,7 +3,7 @@
  * Environment: Eclipse
  * Description: 
  * 		This is a project to parser web site of lecture info, 
- * 		(URL、title、time、location...)
+ * 		(URL��itle��ime��ocation...)
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
@@ -175,7 +175,7 @@ public class ParserMain{
 		
 		for(int i=1; i <= 12; ++i){
 		
-			if( i!=3 && i!=13 ){
+			if( i!=3 && i!=13 && i!=12){
 				
 				/*get new Page Object */
 				WebPage webPage = getPage(i);
@@ -207,13 +207,33 @@ public class ParserMain{
 		}
 		
 		/*get data form database*/
-		ResultSet rs = Database.selectData(TABLE_NAME);
+		ResultSet rs = Database.selectData(TABLE_NAME,1);//select the latest lecture
 		ResultSetMetaData meta = rs.getMetaData(); 
 		while( rs.next() ){
+			String timeString = null;
+			String titleString = null;
+			String urlString = null;
+			
 			for(int i=1; i<=meta.getColumnCount(); ++i){
 				System.out.printf("%s ", rs.getString(i));
-			}
+								
+				if(i == 2)
+				{
+					timeString = rs.getString(i);
+					timeString = timeString.substring(0, 10);
+				}
+				else if(i == 3)
+				{
+					titleString = rs.getString(i);					
+				}
+				else if(i == 4)
+				{
+					urlString = rs.getString(i);
+				}
+			}			
 			System.out.printf("\n");
+			SendEmail tmpSend = new SendEmail();
+			tmpSend.sendToClient("michael78552002@yahoo.com.tw", titleString, timeString, urlString);
 		}
 	
 		//Database.deleteData(TABLE_NAME);
