@@ -3,7 +3,7 @@
  * Environment: Eclipse
  * Description: 
  * 		This is a project to parser web site of lecture info, 
- * 		(URL��itle��ime��ocation...)
+ * 		(URL: title、time、location...)
  * Design Pattern: 
  * 		1.Simple Factory   
  *  	2.Iterator
@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 public class ParserMain{
 	
+
 	/*simple Factory: Use only one class to get all other web page(object)*/
 	public static WebPage getPage(int i){
 		WebPage NewPage = null;
@@ -148,7 +149,8 @@ public class ParserMain{
 			String USER_NAME = "Team1";
 			String PASSWORD = "2013postgres";
 			String TABLE_NAME = "Lecture";
-			
+			String message[];
+			ArrayList <String[]> messageList = new ArrayList <String[]>();
 			String WebURL[] = { 
 					"",
 					"http://english.ncku.edu.tw/eagle/?q=taxonomy/term/21",
@@ -207,37 +209,36 @@ public class ParserMain{
 		}
 		
 		/*get data form database*/
-		ResultSet rs = Database.selectData(TABLE_NAME,1);//select the latest lecture
+		ResultSet rs = Database.selectData(TABLE_NAME, 5);//select the latest lecture
 		ResultSetMetaData meta = rs.getMetaData(); 
+		
+		/*convert ResultSet type to ArrayList<String[]>*/
 		while( rs.next() ){
-			String timeString = null;
-			String titleString = null;
-			String urlString = null;
 			
+			message = new String[meta.getColumnCount()];
+					
 			for(int i=1; i<=meta.getColumnCount(); ++i){
-				System.out.printf("%s ", rs.getString(i));
-								
-				if(i == 2)
-				{
-					timeString = rs.getString(i);
-					timeString = timeString.substring(0, 10);
-				}
-				else if(i == 3)
-				{
-					titleString = rs.getString(i);					
-				}
-				else if(i == 4)
-				{
-					urlString = rs.getString(i);
-				}
-			}			
-			System.out.printf("\n");
-			SendEmail tmpSend = new SendEmail();
-			tmpSend.sendToClient("michael78552002@yahoo.com.tw", titleString, timeString, urlString);
+				
+				System.out.printf("%s\n", rs.getString(i));
+				
+				if(i!=2){
+					message[i-1] = rs.getString(i);
+				}	
+				else{   // Time 
+					message[i-1] = rs.getString(i).substring(0, 10);
+				} 
+			}
+			messageList.add(message);
 		}
+		
+		/*SendEmail to client*/
+		SendEmail tmpSend = new SendEmail();
+		tmpSend.sendToClient("ice479@gmail.com", "NCKU-Lecture", messageList);
 	
-		//Database.deleteData(TABLE_NAME);
-		//Database.deleteData("parserecord");
+		
+		/*if you want to delete data in database*/
+			//Database.deleteData(TABLE_NAME);
+			//Database.deleteData("parserecord");
 		
 		/*close database connection*/
 		Database.close();

@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -10,11 +12,12 @@ import javax.mail.internet.MimeMessage;
 
 public class SendEmail
 {
-	void sendToClient(String mailClient, String titleString, String timeString, String urlString)
+	void sendToClient(String mailClient, String title, ArrayList<String[]> messageList)
 	{
 		final String username = "tmpvirtual0@gmail.com";
 		final String password = "affgg123";
- 
+		String content = "\n";
+		
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -29,13 +32,22 @@ public class SendEmail
 		  });
  
 		try {
- 
+			
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(username));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(mailClient));
-			message.setSubject(titleString);//Title
-			message.setText("Title: " + titleString + "\n\nTime: " + timeString + "\n\nurl: " + urlString);//Text
+			
+			message.setSubject(title);    // Title
+			
+			
+			for(int i=0; i < messageList.size(); ++i){
+				content = content + "Title: " + messageList.get(i)[1] + "\n" 
+						    + "Time: " +  messageList.get(i)[2] + "\n" 
+						    + "URL: " + messageList.get(i)[3] + "\n";
+			}	
+			
+			message.setText(content);   //Text
  
 			Transport.send(message);
  
