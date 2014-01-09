@@ -135,10 +135,6 @@ public class ParserMain{
 			 	
 				return false;
 			}
-			else{
-				
-				return true;
-			}
 		}
 		return true;
 	}
@@ -175,7 +171,7 @@ public class ParserMain{
 		ArrayList<WebPage> pageList = new ArrayList<WebPage>();	
 		
 		
-		for(int i=1; i <= 12; ++i){
+		for(int i=1; i <= 16; ++i){
 		
 			if( i!=3 && i!=13 && i!=12){
 				
@@ -217,16 +213,15 @@ public class ParserMain{
 			
 			message = new String[meta.getColumnCount()];
 					
-			for(int i=1; i<=meta.getColumnCount(); ++i){
-				
-				System.out.printf("%s\n", rs.getString(i));
-				
+			for(int i=2; i<=meta.getColumnCount(); ++i){
+					
 				if(i!=2){
 					message[i-1] = rs.getString(i);
 				}	
 				else{   // Time 
 					message[i-1] = rs.getString(i).substring(0, 10);
 				} 
+				System.out.printf("%s\n", rs.getString(i));
 			}
 			messageList.add(message);
 		}
@@ -242,7 +237,5 @@ public class ParserMain{
 		
 		/*close database connection*/
 		Database.close();
-		
-		System.out.println("End of program");
 	}
 }
