@@ -58,7 +58,7 @@ public class Eagle extends WebPage{
 						Data.setTitle(title);
 						Data.setTime(date);
 			            Data.setURL(link.attr("href"));
-						Data.setLocation("­×»ô¤j¼Ó");
+						Data.setLocation("ä¿®é½Šå¤§æ¨“");
 			            
 			            /*add to arrayList*/
 			            myList.add(Data);
