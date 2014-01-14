@@ -1,6 +1,6 @@
 
-/*¼Æ¾Ç¨t
- * ¨S¦³¦aÂI¸ê°T
+/*æ•¸å­¸ç³»
+ * æ²’æœ‰åœ°é»žè³‡è¨Š
  * */
 import java.io.IOException;
 import java.text.ParseException;
