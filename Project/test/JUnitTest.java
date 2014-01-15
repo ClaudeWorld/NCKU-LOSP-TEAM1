@@ -77,7 +77,7 @@ public class JUnitTest {
 		System.out.println("@Before setUp");
 		pages = new ArrayList<WebPage>();
 		
-		for(int i=8; i<12; ++i){
+		for(int i=8; i<10; ++i){
 			web = getPage(i);
 			web.setURL(url[i]);
 			try {
